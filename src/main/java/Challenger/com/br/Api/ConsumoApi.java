@@ -1,5 +1,6 @@
 package Challenger.com.br.Api;
 
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -18,12 +19,10 @@ public class ConsumoApi {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 301) {
-
                 HttpHeaders headers = response.headers();
                 String newLocation = headers.firstValue("Location").orElse(null);
 
                 if (newLocation != null) {
-
                     request = HttpRequest.newBuilder()
                             .uri(URI.create(newLocation))
                             .build();
@@ -38,4 +37,3 @@ public class ConsumoApi {
         }
     }
 }
-

@@ -1,7 +1,5 @@
 package Challenger.com.br.Api;
 
-
-
 import Challenger.com.br.model.Veiculo;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,9 +27,8 @@ public class VeiculoAPI {
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode rootNode = objectMapper.readTree(response.body());
 
-                for (JsonNode veiculoNode : rootNode) {
+                for (JsonNode veiculoNode : rootNode.get("veiculos")) {
                     Veiculo veiculo = objectMapper.treeToValue(veiculoNode, Veiculo.class);
-
 
                     if (veiculo.getModelo().equalsIgnoreCase(modelo)) {
                         return veiculo.getImagemUrl();

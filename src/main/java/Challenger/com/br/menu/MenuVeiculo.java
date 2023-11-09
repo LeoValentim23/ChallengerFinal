@@ -10,15 +10,12 @@ public class MenuVeiculo {
         System.out.println("Sua placa é: " + placa);
         System.out.println("Seu carro é: " + carro);
 
-
         VeiculoAPI veiculoAPI = new VeiculoAPI();
-
 
         String imagemUrl = veiculoAPI.obterImagemPorModelo(carro);
 
         if (imagemUrl != null) {
             System.out.println("Imagem do seu veículo: " + imagemUrl);
-
         } else {
             System.out.println("Imagem do veículo não encontrada.");
         }
@@ -32,4 +29,5 @@ public class MenuVeiculo {
         }
     }
 }
+
 
