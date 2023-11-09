@@ -1,5 +1,7 @@
 package Challenger.com.br.service;
 
+import Challenger.com.br.model.Cliente;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,28 +13,29 @@ public class DatabaseAccess {
     private static final String DB_USER = "seu_usuario";
     private static final String DB_PASSWORD = "";
 
-    public static void main(String[] args) {
-        try {
-            Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-
-            // Consulta SQL simples
-            String sql = "SELECT nome, placa FROM clientes";
+    public Cliente obterInformacoesDoCliente(String cpf) {
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            String sql = "SELECT nome, carro, placa, peso_veiculo, cpf, senha FROM clientes WHERE cpf = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, cpf);
             ResultSet resultSet = statement.executeQuery();
 
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 String nome = resultSet.getString("nome");
+                String carro = resultSet.getString("carro");
                 String placa = resultSet.getString("placa");
-                System.out.println("Nome: " + nome + ", Placa: " + placa);
-            }
+                String pesoVeiculo = resultSet.getString("peso_veiculo");
+                String senha = resultSet.getString("senha");
 
-            // Feche os recursos
-            resultSet.close();
-            statement.close();
-            connection.close();
+                // Agora, você deve criar uma instância de Cliente com todos os argumentos necessários
+                Cliente cliente = new Cliente(nome, carro, placa, pesoVeiculo, cpf, senha);
+
+                return cliente;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return null; // Retorna null caso o cliente não seja encontrado ou ocorra um erro
     }
 }
-

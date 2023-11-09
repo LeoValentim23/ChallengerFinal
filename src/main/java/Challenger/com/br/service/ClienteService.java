@@ -1,18 +1,53 @@
 package Challenger.com.br.service;
 
+import Challenger.com.br.conexao.ConnectionManager;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ClienteService {
-    public static String obterPlacaDoCliente(String cpf) {
-        // Substitua pela lógica real para obter a placa do cliente
-        // Aqui, você pode usar o CPF para consultar o banco de dados e recuperar a placa
-        // Por enquanto, retornamos uma placa fictícia
-        return "ABC123";
+    private ConnectionManager connectionManager;
+
+    public ClienteService(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
     }
 
-    public static String obterCarroDoCliente(String cpf) {
-        // Substitua pela lógica real para obter o carro do cliente
-        // Aqui, você pode usar o CPF para consultar o banco de dados e recuperar o carro
-        // Por enquanto, retornamos um nome fictício de carro
-        return "Carro do Cliente";
+    public String obterPlacaDoCliente(String cpf) {
+        try (Connection connection = connectionManager.getConnection()) {
+            String sql = "SELECT placa FROM clientes WHERE cpf = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, cpf);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getString("placa");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null; // Retorna null se não encontrar a placa para o CPF fornecido
+    }
+
+    public String obterCarroDoCliente(String cpf) {
+        try (Connection connection = connectionManager.getConnection()) {
+            String sql = "SELECT carro FROM clientes WHERE cpf = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, cpf);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getString("carro");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null; // Retorna null se não encontrar o carro para o CPF fornecido
     }
 }
+
+
+

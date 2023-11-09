@@ -1,9 +1,7 @@
 package Challenger.com.br.service;
 
-import Challenger.com.br.conexao.ConnectionManager;
 import Challenger.com.br.model.Cliente;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import Challenger.com.br.conexao.ConnectionManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,20 +10,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/clientes")
 public class ClienteController {
-
-    @Autowired
-    private VerificadorCadastro verificadorCadastro;
     private final ConnectionManager connectionManager;
+    private final VerificadorCadastro verificadorCadastro; // Instância de VerificadorCadastro
 
-    public ClienteController(ConnectionManager connectionManager) {
+    public ClienteController(ConnectionManager connectionManager, VerificadorCadastro verificadorCadastro) {
         this.connectionManager = connectionManager;
+        this.verificadorCadastro = verificadorCadastro;
     }
 
-    @GetMapping
-    public List<Cliente> obterClientesPorCpfESenha(@RequestParam String cpf, @RequestParam String senha) {
+    public List<Cliente> obterClientesPorCpfESenha(String cpf, String senha) {
         List<Cliente> clientes = new ArrayList<>();
 
         try (Connection connection = connectionManager.getConnection()) {
@@ -44,7 +38,7 @@ public class ClienteController {
                 String senhaFromDB = resultSet.getString("senha");
 
                 if (verificadorCadastro.verificarCadastro(cpfFromDB, senhaFromDB)) {
-                    clientes.add(new Cliente(nome, carro, placa, pesoVeiculo, cpf, senha));
+                    clientes.add(new Cliente(nome, carro, placa, pesoVeiculo, cpfFromDB, senhaFromDB));
                 }
             }
         } catch (SQLException e) {
@@ -54,5 +48,3 @@ public class ClienteController {
         return clientes;
     }
 }
-
-

@@ -12,8 +12,8 @@ public class MenuVeiculo {
         String resposta = scanner.nextLine();
 
         if ("sim".equalsIgnoreCase(resposta)) {
-            System.out.println("Redirecionar para a funcionalidade desejada");
-            // Adicione o redirecionamento para outras telas ou funcionalidades aqui
+            System.out.println("Redirecionar para a funcionalidade de chamado");
+            Chamado.realizarChamado(scanner);
         }
     }
 }

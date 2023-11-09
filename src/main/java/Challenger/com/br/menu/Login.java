@@ -1,7 +1,9 @@
 package Challenger.com.br.menu;
 
+import Challenger.com.br.conexao.ConnectionManager;
 import Challenger.com.br.service.ClienteService;
 import Challenger.com.br.service.VerificadorCadastro;
+
 import java.util.Scanner;
 
 public class Login {
@@ -19,8 +21,10 @@ public class Login {
             // O usuário está cadastrado
             System.out.println("Login bem-sucedido. Bem-vindo!");
 
-            String placa = ClienteService.obterPlacaDoCliente(cpf);
-            String carro = ClienteService.obterCarroDoCliente(cpf);
+            ConnectionManager connectionManager = new ConnectionManager(); // Crie uma instância de ConnectionManager
+            ClienteService clienteService = new ClienteService(connectionManager); // Passe o ConnectionManager no construtor
+            String placa = clienteService.obterPlacaDoCliente(cpf);
+            String carro = clienteService.obterCarroDoCliente(cpf);
             MenuVeiculo.mostrarMenu(scanner, placa, carro);
 
             return true;
@@ -31,5 +35,8 @@ public class Login {
         }
     }
 }
+
+
+
 
 
