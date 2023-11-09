@@ -2,7 +2,7 @@ package Challenger.com.br.menu;
 
 import java.util.Scanner;
 
-import Challenger.com.br.guincho.Guincho;
+import Challenger.com.br.guincho.*;
 
 public class Chamado {
     public static void realizarChamado(Scanner scanner) {
@@ -27,13 +27,13 @@ public class Chamado {
 
         switch (tipoModificacao) {
             case 1:
-                // Lógica para número de eixos
+
                 break;
             case 2:
-                // Lógica para carga
+
                 break;
             case 3:
-                // Lógica para tipo de carga
+
                 break;
             default:
                 System.out.println("Opção de modificação inválida.");
@@ -41,8 +41,15 @@ public class Chamado {
         }
 
         Guincho[] guinchos = {
-                // Adicione aqui os tipos de guinchos disponíveis
+
+                new GuinchoPesadoComPlatHidraulicaMunck(),
+                new GuinchoPesadoComPlataformaHidraulicaEBand(),
+                new GuinchoPesadoComQuintaRodaELanca(),
+                new GuinchoPesadoComQuintaRodaPesadoComTorreELanca(),
+                new GuinchoPesadoNãoPadrao(),
+                new GuinchoTecnicoPesadoParaQuinchoPesado()
         };
+
 
         int guinchoSelecionado = -1;
         double diferencaPesoMaisProximo = Double.MAX_VALUE;
@@ -66,3 +73,4 @@ public class Chamado {
         }
     }
 }
+

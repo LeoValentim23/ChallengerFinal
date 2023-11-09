@@ -1,7 +1,8 @@
-package Challenger.com.br.service;
+package Challenger.com.br.Controler;
 
 import Challenger.com.br.model.Cliente;
 import Challenger.com.br.conexao.ConnectionManager;
+import Challenger.com.br.service.VerificadorCadastro;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -22,7 +22,7 @@ public class VerificadorCadastro {
             statement.setString(2, senha);
             ResultSet resultSet = statement.executeQuery();
 
-            return resultSet.next(); // Retorna true se o login for válido
+            return resultSet.next();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

@@ -28,7 +28,7 @@ public class ClienteService {
             e.printStackTrace();
         }
 
-        return null; // Retorna null se não encontrar a placa para o CPF fornecido
+        return null;
     }
 
     public String obterCarroDoCliente(String cpf) {
@@ -45,7 +45,7 @@ public class ClienteService {
             e.printStackTrace();
         }
 
-        return null; // Retorna null se não encontrar o carro para o CPF fornecido
+        return null;
     }
 }
 

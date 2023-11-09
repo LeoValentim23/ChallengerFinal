@@ -38,7 +38,7 @@ public class Menu {
                     case 3:
                         System.out.println("Obrigado por utilizar o sistema!");
                         scanner.close();
-                        System.exit(0); // Encerra o programa
+                        System.exit(0);
                     default:
                         System.out.println("Opção inválida. Por favor, selecione uma opção válida.");
                         break;

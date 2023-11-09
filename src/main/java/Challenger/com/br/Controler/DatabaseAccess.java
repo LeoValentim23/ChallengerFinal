@@ -1,4 +1,4 @@
-package Challenger.com.br.service;
+package Challenger.com.br.Controler;
 
 import Challenger.com.br.model.Cliente;
 
@@ -27,7 +27,7 @@ public class DatabaseAccess {
                 String pesoVeiculo = resultSet.getString("peso_veiculo");
                 String senha = resultSet.getString("senha");
 
-                // Agora, você deve criar uma instância de Cliente com todos os argumentos necessários
+
                 Cliente cliente = new Cliente(nome, carro, placa, pesoVeiculo, cpf, senha);
 
                 return cliente;
@@ -36,6 +36,6 @@ public class DatabaseAccess {
             e.printStackTrace();
         }
 
-        return null; // Retorna null caso o cliente não seja encontrado ou ocorra um erro
+        return null;
     }
 }
