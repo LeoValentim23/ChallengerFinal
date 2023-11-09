@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ClienteController {
     private final ConnectionManager connectionManager;
-    private final VerificadorCadastro verificadorCadastro; // Instância de VerificadorCadastro
+    private final VerificadorCadastro verificadorCadastro;
 
     public ClienteController(ConnectionManager connectionManager, VerificadorCadastro verificadorCadastro) {
         this.connectionManager = connectionManager;
