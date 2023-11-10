@@ -20,7 +20,7 @@ public class MenuVeiculo {
             System.out.println("Imagem do veículo não encontrada.");
         }
 
-        System.out.println("Quer realizar alguma ação (Digite 'sim' ou 'nao')?");
+        System.out.println("Quer realizar um chamado ? (Digite 'sim' ou 'nao')?");
         String resposta = scanner.nextLine();
 
         if ("sim".equalsIgnoreCase(resposta)) {
