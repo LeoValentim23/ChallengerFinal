@@ -1,51 +1,49 @@
-package Challenger.com.br.Controler;
-
 import Challenger.com.br.model.Cliente;
 import Challenger.com.br.conexao.ConnectionManager;
-import Challenger.com.br.service.VerificadorCadastro;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ClienteController {
     private final ConnectionManager connectionManager;
-    private final VerificadorCadastro verificadorCadastro;
 
-    public ClienteController(ConnectionManager connectionManager, VerificadorCadastro verificadorCadastro) {
+    public ClienteController(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
-        this.verificadorCadastro = verificadorCadastro;
     }
 
-    public List<Cliente> obterClientesPorCpfESenha(String cpf, String senha) {
-        List<Cliente> clientes = new ArrayList<>();
+    public void inserirClienteEmTabelas(Cliente cliente) {
+        String querySegurado = "INSERT INTO tb_segurado (NOME_SEGURADO, CPF_SEGURADO, SENHA_SEGURADO) VALUES (?, ?, ?)";
+        String queryApoliceVeiculo = "INSERT INTO tb_apolice_veiculo (Placa_veiculo) VALUES (?)";
+        String queryVeiculo = "INSERT INTO tb_veiculo (PESO_VEICULO) VALUES (?)";
+        String queryMarca = "INSERT INTO tb_marca (tb_marca) VALUES (?)";
 
-        try (Connection connection = connectionManager.getConnection()) {
-            String sql = "SELECT nome, carro, placa, peso_veiculo, cpf, senha FROM clientes WHERE cpf = ? AND senha = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, cpf);
-            statement.setString(2, senha);
-            ResultSet resultSet = statement.executeQuery();
+        try (Connection dbConnection = connectionManager.getConnection();
+             PreparedStatement preparedStatementSegurado = dbConnection.prepareStatement(querySegurado);
+             PreparedStatement preparedStatementApoliceVeiculo = dbConnection.prepareStatement(queryApoliceVeiculo);
+             PreparedStatement preparedStatementVeiculo = dbConnection.prepareStatement(queryVeiculo);
+             PreparedStatement preparedStatementMarca = dbConnection.prepareStatement(queryMarca)) {
 
-            while (resultSet.next()) {
-                String nome = resultSet.getString("nome");
-                String carro = resultSet.getString("carro");
-                String placa = resultSet.getString("placa");
-                String pesoVeiculo = resultSet.getString("peso_veiculo");
-                String cpfFromDB = resultSet.getString("cpf");
-                String senhaFromDB = resultSet.getString("senha");
+            // Dados para tb_segurado
+            preparedStatementSegurado.setString(1, cliente.getNome());
+            preparedStatementSegurado.setString(2, cliente.getCpf());
+            preparedStatementSegurado.setString(3, cliente.getSenha());
+            preparedStatementSegurado.executeUpdate();
 
-                if (verificadorCadastro.verificarCadastro(cpfFromDB, senhaFromDB)) {
-                    clientes.add(new Cliente(nome, carro, placa, pesoVeiculo, cpfFromDB, senhaFromDB));
-                }
-            }
+            // Dados para tb_apolice_veiculo
+            preparedStatementApoliceVeiculo.setString(1, cliente.getPlaca());
+            preparedStatementApoliceVeiculo.executeUpdate();
+
+            // Dados para tb_veiculo
+            preparedStatementVeiculo.setString(1, cliente.getPesoVeiculo());
+            preparedStatementVeiculo.executeUpdate();
+
+            // Dados para tb_marca
+            preparedStatementMarca.setString(1, cliente.getNome());
+            preparedStatementMarca.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return clientes;
     }
 }

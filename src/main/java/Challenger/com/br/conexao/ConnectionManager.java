@@ -6,9 +6,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionManager {
-    private static final String urlDeConexao = "jdbc:h2:file:./Banco/ChalengerBanco;AUTO_SERVER=TRUE";
-    private static final String login = "sa";
-    private static final String senha = "";
+    private static final String urlDeConexao = "jdbc:oracle:thin:@//oracle.fiap.com.br:1521/ORCL";
+    private static final String login = "rm551201";
+    private static final String senha = "141200";
 
     public static Connection getConnection() {
         try {
